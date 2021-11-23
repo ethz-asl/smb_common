@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="smb">
 
     <xacro:property name="base_link_name" value="base_link"/>
@@ -26,6 +25,7 @@
 
     <!-- Imu  Properties -->
     <xacro:property name="mount_origin_rpy"     value="0 0 0"/>
-    <xacro:property name="mount_origin_xyz"     value="0.00445 0 ${0.228+chassisHeight/2.0}"/>
-    <xacro:property name="lidar_height_over_mount" value="0.038" />
+    <xacro:property name="mount_origin_xyz"     value="0.245 0 ${0.228+chassisHeight/2.0}"/>
+    <xacro:property name="lidar_height_over_mount" value="0.14" />
+
 </robot>

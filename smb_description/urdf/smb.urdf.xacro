@@ -65,13 +65,13 @@
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="${prefix}_WHEEL_JOINT">
                 <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+             <!--    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
             </joint>
             <actuator name="${prefix}_WHEEL_ACTUATOR">
                 <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface> -->
                 <mechanicalReduction>${transmission_reduction}</mechanicalReduction>
             </actuator>
         </transmission>
@@ -190,8 +190,8 @@
         <xacro:blackfly_cam_stereo base_link="${base_link_name}" simulation="${simulation}"/>
 
         <xacro:if value="${lidar}">
-            <xacro:LIDAR base_link="${base_link_name}" simulation="${simulation}"/>
             <xacro:lidar_mount base_link="${base_link_name}"/>
+            <xacro:LIDAR base_link="lidar_mount_link" simulation="${simulation}"/>
         </xacro:if>
 
         <xacro:if value="${tracking_camera}">

@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="smb">
 
+    <xacro:property name="base_link_name" value="base_link"/>
     <xacro:property name="chassisHeight" value="0.197"/>
     <xacro:property name="chassisLength" value="0.605"/>
     <xacro:property name="chassisWidth" value="0.410"/>
@@ -19,5 +20,10 @@
     <xacro:property name="wheelClearance" value="0.02"/>
     <xacro:property name="wheelHeight" value="0.08"/>
     <xacro:property name="wheelMass" value="5"/>
+
+    <!-- Imu  Properties -->
+    <xacro:property name="mount_origin_rpy"     value="0 0 0"/>
+    <xacro:property name="mount_origin_xyz"     value="0.00445 0 ${0.228+chassisHeight/2.0}"/>
+
 
 </robot>
