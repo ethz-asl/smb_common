@@ -4,12 +4,10 @@
 <!-- Documentation can be found at http://wiki.ros.org/hector_gazebo_plugins -->
 
 <robot name="smb" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="lidar_mount" params="base_link">
-    <!--                              Imu  Properties 				          	-->
-    <xacro:property name="mount_base_link"		value="${base_link}"/>
-    <xacro:property name="mount_origin_rpy"		value="0 0 0"/>
-    <xacro:property name="mount_origin_xyz"		value="0.00445 0 ${0.228+chassisHeight/2.0}"/>
 
+  <xacro:macro name="lidar_mount" params="base_link">
+    <xacro:property name="mount_base_link"      value="${base_link}"/>
+  
     <link name="lidar_mount_link">
       <visual>
         <geometry>
@@ -18,8 +16,8 @@
       </visual>
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1e-4"/>
-        <xacro:cylinder_inertia m="1e-4" r="1e-4" h="1e-4"/>
+        <mass value="0.5"/>
+        <xacro:cylinder_inertia m="0.5" r="0.05" h="0.1"/>  <!-- you need some inertial otherwise the link start spinning in gazebo -->
       </inertial>      
     </link>
 
@@ -34,7 +32,7 @@
     </joint>
 
     <gazebo reference="lidar_mount_joint">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
+      <disableFixedJointLumping>true</disableFixedJointLumping> 
     </gazebo>
 
 
