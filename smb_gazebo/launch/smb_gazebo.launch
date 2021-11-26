@@ -38,7 +38,7 @@
   <arg name="description_name"                     default="robot_description"/>
   <arg name="control_namespace"                    default="control"/>
   <remap from="/$(arg control_namespace)/robot_description" to="$(arg description_name)"/>
-
+ 
   <!-- Load parameters -->
   <param name="gazebo/publishing_time_step"     value="$(arg publishing_time_step)"/>
 

@@ -29,5 +29,4 @@
   </include>
 
   <include file="$(find smb_opc)/launch/opc.launch" if="$(arg launch_rviz)"/>
-
 </launch>
