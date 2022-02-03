@@ -4,6 +4,7 @@
 <arg name="bag_filenames"         default="$(find smb_slam)/data/first_mission_wangen.bag"/>
 <arg name="pose_graph_filename"   default="$(find smb_slam)/data/first_mission_wangen.bag.pbstream"/>
 <arg name="map_name"              default="wangen_map"/>
+<arg name="output_file_prefix"    default="$(find smb_slam)/maps/$(arg map_name)"/>
 
   <node name="cartographer_assets_writer" pkg="cartographer_ros" required="true"
       type="cartographer_assets_writer" args="
@@ -12,7 +13,7 @@
           -urdf_filename $(find smb_slam)/config/smb_cartographer/smb.urdf
           -bag_filenames $(arg bag_filenames)
           -pose_graph_filename $(arg pose_graph_filename)
-          -output_file_prefix $(find smb_slam)/maps/$(arg map_name)"
+          -output_file_prefix $(arg output_file_prefix)"
       output="screen">
   </node>
 </launch>

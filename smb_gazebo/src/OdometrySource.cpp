@@ -324,17 +324,37 @@ void OdometrySource::UpdateChild()
 
 
       if (this->publish_tf_) {
-        odomTf_.header.stamp = ros::Time::now();
-        odomTf_.header.frame_id = this->odom_frame_;
-        odomTf_.child_frame_id = this->child_odom_frame_;
-        odomTf_.transform.translation.x = pose.Pos().X();
-        odomTf_.transform.translation.y = pose.Pos().Y();
-        odomTf_.transform.translation.z = pose.Pos().Z();
-        odomTf_.transform.rotation.x = pose.Rot().X();
-        odomTf_.transform.rotation.y = pose.Rot().Y();
-        odomTf_.transform.rotation.z = pose.Rot().Z();
-        odomTf_.transform.rotation.w = pose.Rot().W();
-        tfBroadcaster_.sendTransform(odomTf_);
+        // repeated timestamps make RViz complain
+        auto newTfPublishTime = ros::Time::now();
+        if (newTfPublishTime.toSec() > lastTfPublishTimeSec_){
+          odomTf_.header.stamp = newTfPublishTime;
+          odomTf_.header.frame_id = this->odom_frame_;
+          odomTf_.child_frame_id = this->child_odom_frame_;
+          odomTf_.transform.translation.x = pose.Pos().X();
+          odomTf_.transform.translation.y = pose.Pos().Y();
+          odomTf_.transform.translation.z = pose.Pos().Z();
+          odomTf_.transform.rotation.x = pose.Rot().X();
+          odomTf_.transform.rotation.y = pose.Rot().Y();
+          odomTf_.transform.rotation.z = pose.Rot().Z();
+          odomTf_.transform.rotation.w = pose.Rot().W();
+          tfBroadcaster_.sendTransform(odomTf_);
+
+          // publish tf from world to odom, such that the ROS knowledge of world corresponds to the gazebo one
+          auto linkPose = this->link_->WorldPose().Inverse();
+          link2worldTf_.header.stamp = newTfPublishTime;
+          link2worldTf_.header.frame_id = this->link_name_;
+          link2worldTf_.child_frame_id = "world";
+          link2worldTf_.transform.translation.x = linkPose.Pos().X();
+          link2worldTf_.transform.translation.y = linkPose.Pos().Y();
+          link2worldTf_.transform.translation.z = linkPose.Pos().Z();
+          link2worldTf_.transform.rotation.x = linkPose.Rot().X();
+          link2worldTf_.transform.rotation.y = linkPose.Rot().Y();
+          link2worldTf_.transform.rotation.z = linkPose.Rot().Z();
+          link2worldTf_.transform.rotation.w = linkPose.Rot().W();
+          tfBroadcaster_.sendTransform(link2worldTf_);
+
+          lastTfPublishTimeSec_ = newTfPublishTime.toSec();
+        } 
       }
 
       this->lock.unlock();

@@ -14,7 +14,7 @@
     output="screen" required="true">
     <remap from="points2" to="/rslidar_points" /> <!-- /os1_node/packets_as_clouds os /os1_node/points -->
     <remap from="imu"       to="/versavis/imu"/> <!-- /os1_node/imu or /xsensmt_node/rawImu -->
-    <remap from="odom"       to="/camera/odom/sample"/> <!-- realsense odometry -->
+    <remap from="odom"       to="/realsense_t265/odom/sample"/> <!-- realsense odometry -->
   </node>
 
   <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"

@@ -43,6 +43,7 @@
 #include <gazebo_plugins/PubQueue.h>
 
 #include <tf2_ros/transform_broadcaster.h>
+#include <tf2_ros/static_transform_broadcaster.h>
 #include <geometry_msgs/TransformStamped.h>
 
 namespace gazebo
@@ -91,8 +92,10 @@ private:
   common::Time last_time_;
 
   // tf
+  double lastTfPublishTimeSec_ = -1;
   bool publish_tf_;
   geometry_msgs::TransformStamped odomTf_;
+  geometry_msgs::TransformStamped link2worldTf_;
   tf2_ros::TransformBroadcaster tfBroadcaster_;
 
   // rate control
