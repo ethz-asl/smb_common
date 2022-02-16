@@ -9,12 +9,12 @@
     type="cartographer_offline_node" args="
     -configuration_directory $(find smb_slam)/config/smb_cartographer
     -configuration_basenames smb.lua
-    -urdf_filenames $(find smb_slam)/config/smb_cartographer/smb.urdf
+    -urdf_filenames $(find smb_slam)/config/smb_cartographer/smb_piloting.urdf
     -bag_filenames $(arg bag_filename)"
     output="screen" required="true">
     <remap from="points2" to="/rslidar_points" /> <!-- /os1_node/packets_as_clouds os /os1_node/points -->
     <remap from="imu"       to="/versavis/imu"/> <!-- /os1_node/imu or /xsensmt_node/rawImu -->
-    <remap from="odom"       to="/realsense_t265/odom/sample"/> <!-- realsense odometry -->
+    <remap from="odom"       to="/camera/odom/sample"/> <!-- realsense odometry -->
   </node>
 
   <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
