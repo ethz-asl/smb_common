@@ -10,7 +10,7 @@
       type="cartographer_assets_writer" args="
           -configuration_directory $(find smb_slam)/config/smb_cartographer
           -configuration_basename assets_writer_smb.lua
-          -urdf_filename $(find smb_slam)/config/smb_cartographer/smb.urdf
+          -urdf_filename $(find smb_slam)/config/smb_cartographer/smb_piloting.urdf
           -bag_filenames $(arg bag_filenames)
           -pose_graph_filename $(arg pose_graph_filename)
           -output_file_prefix $(arg output_file_prefix)"
