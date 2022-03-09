@@ -41,7 +41,7 @@
 	      <arg name="enable_accel"             value="true"/>
 	      <arg name="enable_gyro"              value="true"/>
 	      <arg name="publish_odom_tf"          value="false"/>
-	      <arg name="topic_odom_in"            value="/control/smb_diff_drive/odom"/>
+	      <arg name="topic_odom_in"            value="/smb/smb_diff_drive/odom"/>
 	      <arg name="unite_imu_method"         value="linear_interpolation"/>
 	      <arg name="calib_odom_file"          value="$(arg tracking_cam_calib_odom_file)"/>
 	    </include>
