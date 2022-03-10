@@ -14,8 +14,8 @@
     <xacro:property name="topWidth" value="0.410"/>
     <xacro:property name="topMass" value="0.001"/>
 
-    <xacro:property name="wheelWidth" value="0.1"/>
-    <xacro:property name="wheelRadius" value="0.19"/>
+    <xacro:property name="wheelWidth" value="0.085"/>
+    <xacro:property name="wheelRadius" value="0.145"/>
     <xacro:property name="frontWheelX" value="0.2159"/>
     <xacro:property name="backWheelX" value="-0.2159"/>
     <xacro:property name="wheelClearance" value="0.03"/>
