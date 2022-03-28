@@ -13,6 +13,8 @@
   <arg name="mpc_track_local_plan"       default="false" />
   <arg name="publish_robot_state"        default="true" />
   <arg name="load_description"           default="true"/>
+  <arg name="setup"                      default="smb_big_properties"/>
+  
 
   <!-- Load robot description for controller -->
   <group if="$(arg load_description)">
@@ -25,6 +27,7 @@
       <arg name="wheel_joint_type" value="continuous"/>
       <arg name="robot_namespace"  value="$(arg robot_namespace)"/>
       <arg name="publish_tf"       value="true"/>
+      <arg name="setup"            value="$(arg setup)"/>
     </include>
   </group>
   

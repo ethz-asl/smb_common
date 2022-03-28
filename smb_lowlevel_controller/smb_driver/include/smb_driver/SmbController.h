@@ -160,6 +160,8 @@ private:
 
     //Convert RPM to rad/sec
     double rpmToRps_;
+    // Correct for wrong encoder reading
+    double encoder_correction_factor_;
 };
 
 } //namespace smb_driver

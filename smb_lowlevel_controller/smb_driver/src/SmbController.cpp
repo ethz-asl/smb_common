@@ -22,6 +22,8 @@ SmbController::SmbController(std::string port, ros::NodeHandle &nh, size_t vecSi
         nh_(nh)
 {
   rpmToRps_ = 2.0 * M_PI / 60.0;
+  nh_.param<double>("encoder_correction_factor", encoder_correction_factor_, 1.0);
+  std::cout << "Encoder correction factor defined in " << nh_.getNamespace() << " is " << encoder_correction_factor_ << std::endl;
 
   command_packets_.set_capacity(vecSize_);
 //  this->startAcquisition();
@@ -65,6 +67,7 @@ bool SmbController::readWheelSpeeds() {
     if(leftSpeedStatus == RQ_SUCCESS) {
         leftSpeed = leftSpeedResult;
         leftSpeed *= rpmToRps_;
+        leftSpeed *= encoder_correction_factor_;
     }
     else {
         res = false;
@@ -77,6 +80,7 @@ bool SmbController::readWheelSpeeds() {
     if(rightSpeedStatus == RQ_SUCCESS) {
         rightSpeed = -rightSpeedResult; //Minus so that positive speed is in forward direction
         rightSpeed *= rpmToRps_;
+        rightSpeed *= encoder_correction_factor_;
     }
     else {
         res = false;

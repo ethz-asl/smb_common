@@ -137,7 +137,7 @@ void SmbHWInterface::setDriverMode(SmbMode mode){
           if (!registerLimits(jointVelHandle))
             ROS_WARN_STREAM("Could not load controller joint limits, are they set?");
 
-          currentPIDs_[i].init(nh_, controller_ns + name + "_dc_controller");
+          currentPIDs_[i].init(nh_, controller_ns + name + "_dc_controller", true);
 
       }  // end for each joint
 
@@ -284,7 +284,13 @@ bool reglimits = ((urdf_limits_ok && urdf_soft_limits_ok) || (rosparam_limits_ok
       // Set the PID error and compute the PID command with nonuniform time
       // step size. The derivative error is computed from the change in the error
       // and the timestep dt.
-      *command_ = pid_controller_.computeCommand(error, period);
+      if (std::abs(*setPoint_) >= 0.01) {
+        *command_ = pid_controller_.computeCommand(error, period);
+        *command_ += *setPoint_ > 0 ? 25 : -25;
+      } else {
+        *command_ = 0;
+        pid_controller_.reset();
+      }
 
       if(loop_count_ % 20 == 0)
       {
