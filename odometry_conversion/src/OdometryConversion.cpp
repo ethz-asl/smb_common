@@ -9,6 +9,7 @@ OdometryConversion::OdometryConversion(ros::NodeHandle& nh) : buffer_(), transfo
   outOdomFrame_ = nh.param<std::string>("out_odom_frame", outOdomFrame_);
   inSensorFrame_ = nh.param<std::string>("in_sensor_frame", inSensorFrame_);
   outSensorFrame_ = nh.param<std::string>("out_sensor_frame", outSensorFrame_);
+  usePlanarMotion_ = nh.param<bool>("use_planar_motion", usePlanarMotion_);
 
   auto sensorTransform = buffer_.lookupTransform(outSensorFrame_, inSensorFrame_, ros::Time(0), ros::Duration(10));
   sensorTransformHom_ = toHomTransform(sensorTransform.transform);
@@ -76,6 +77,15 @@ void OdometryConversion::odometryInCallback(const nav_msgs::Odometry& odomIn) {
 
   Eigen::Matrix4d inHom = toHomTransform(odomIn.pose.pose);
   Eigen::Matrix4d outHom = odomTransformHom_ * inHom * sensorTransformHom_;
+
+  if (usePlanarMotion_) {
+    ROS_INFO_ONCE("Using planar motion");
+    outHom(2, 3) = 0.0;
+    const Eigen::Vector3d ix = outHom.block<3, 1>(0, 0);
+    const double theta  = std::atan2(ix.y(), ix.x());
+    outHom.block<3, 3>(0, 0) = Eigen::AngleAxisd(theta, Eigen::Vector3d::UnitZ()).matrix();
+  }
+
   odomOut.pose.pose = fromHomTransformToPose(outHom);
 
   Eigen::Vector3d inRotVel;
@@ -101,7 +111,9 @@ void OdometryConversion::odometryInCallback(const nav_msgs::Odometry& odomIn) {
   odomTransform.header.frame_id = outSensorFrame_;
   odomTransform.child_frame_id = outOdomFrame_;
   Eigen::Matrix3d odomTransformRot = outHom.block<3, 3>(0, 0).transpose();
-  tf::quaternionEigenToMsg(Eigen::Quaterniond(odomTransformRot), odomTransform.transform.rotation);
+  Eigen::Quaterniond odomTransformQuat(odomTransformRot);
+
+  tf::quaternionEigenToMsg(odomTransformQuat, odomTransform.transform.rotation);
   tf::vectorEigenToMsg(Eigen::Vector3d(-odomTransformRot * outHom.block<3, 1>(0, 3)), odomTransform.transform.translation);
   odomPublisher_.sendTransform(odomTransform);
 

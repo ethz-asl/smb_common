@@ -25,6 +25,7 @@ class OdometryConversion {
   std::string inSensorFrame_ = "camera_pose_frame";
   std::string outOdomFrame_ = "tracking_camera_odom";
   std::string outSensorFrame_ = "base_link";
+  bool usePlanarMotion_ = false;
 
   Eigen::Matrix4d odomTransformHom_;
   Eigen::Matrix4d sensorTransformHom_;
